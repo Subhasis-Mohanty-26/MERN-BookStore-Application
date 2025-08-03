@@ -6,6 +6,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import avatarImg from "../assets/avatar.png";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { id: 1, name: "Dashboard", path: "/dashboard" },
@@ -16,6 +17,10 @@ const navigation = [
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  console.log(cartItems);
+
   const currentUser = false;
 
   return (
@@ -58,7 +63,10 @@ const Navbar = () => {
                   <div className=" absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-40">
                     <ul>
                       {navigation.map((item) => (
-                        <li key={item.id} onClick={() => setIsDropdownOpen(false)}>
+                        <li
+                          key={item.id}
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
                           <Link
                             to={item.path}
                             className=" block px-4 py-2 text-sm hover:bg-gray-100"
@@ -86,7 +94,14 @@ const Navbar = () => {
             className="bg-primary p-1 sm:px-6 py-2 flex items-center rounded-md"
           >
             <HiOutlineShoppingCart className="" />
-            <span className="text-sm font-semibold sm:ml-1">0</span>
+
+            {cartItems.length > 0 ? (
+              <span className="text-sm font-semibold sm:ml-1">
+                {cartItems.length}
+              </span>
+            ) : (
+              <span className="text-sm font-semibold sm:ml-1">0</span>
+            )}
           </Link>
         </div>
       </nav>
